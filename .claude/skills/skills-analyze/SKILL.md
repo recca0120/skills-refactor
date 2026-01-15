@@ -17,61 +17,25 @@ This is **Step 1** of the refactoring workflow:
 
 ### Step 1: Scan Skills
 
-Locate all `SKILL.md` files in the target directory:
-- Project: `.claude/skills/`
-- Personal: `~/.claude/skills/`
-- **Cross-project**: Multiple directories (if specified)
+Locate all `SKILL.md` files in `.claude/skills/` or `~/.claude/skills/`.
 
 ### Step 2: Check Issues
 
-For each SKILL.md, check:
-
-| Category | Rules | Severity |
-|----------|-------|----------|
-| frontmatter | name, description format | Error |
-| content | max 500 lines, no `\` paths | Warning |
-| naming | prefer verb-ing, no vague names | Warning/Info |
-| reference | all paths must exist | Error |
-| security | no secrets/API keys | Error |
+For each SKILL.md, check lint rules (frontmatter, content, naming, reference, security).
 
 > Rule details: `references/lint-rules.md`
 
 ### Step 3: Detect Duplicates
 
-Compare content across all SKILL.md files:
-
-| Type | Criteria | Action |
-|------|----------|--------|
-| Exact | 100% identical, ≥5 lines | Extract to shared/ |
-| Near | ≥80% similar | Parameterize or extract |
-| Structural | Same pattern, different values | Create template |
+Compare content across all SKILL.md files for exact (100%), near (≥80%), or structural duplicates.
 
 > Detection patterns: `references/duplicate-patterns.md`
 
 ### Step 4: Calculate Quality Score
 
-Calculate a 0-100 score based on rule compliance:
+Score = 100 - (Errors × 10) - (Warnings × 5) + Bonus (max 100)
 
-| Factor | Weight | Calculation |
-|--------|--------|-------------|
-| Error-free | 40% | -10 per Error |
-| Warning-free | 30% | -5 per Warning |
-| Best practices | 20% | +points for gerund naming, good structure |
-| Documentation | 10% | +points for clear descriptions |
-
-### Step 5: Cross-Project Analysis (Optional)
-
-When analyzing multiple projects/directories:
-
-1. **Find shared patterns** across projects
-2. **Identify candidates** for organization-level shared skills
-3. **Recommend consolidation** opportunities
-
-| Pattern | Recommendation |
-|---------|----------------|
-| Same skill in 3+ projects | Create org-level shared skill |
-| Similar workflows | Extract to shared template |
-| Common references | Create shared resource library |
+> Score details: `references/lint-rules.md#quality-score-calculation`
 
 ## Output
 
@@ -81,34 +45,14 @@ When analyzing multiple projects/directories:
 ## Summary
 - Skills: [count] | Score: [0-100] | Errors: [n] | Warnings: [n]
 
-## Quality Score: [score]/100
-- Errors: -[n] points
-- Warnings: -[n] points
-- Best practices: +[n] points
-
-## Issues with Auto-fix
-
+## Issues
 ### `[rule]` skill-name/SKILL.md:[line]
 **Problem**: [description]
-**Fix**:
-\`\`\`yaml
-# Before
-[original code]
-
-# After
-[fixed code]
-\`\`\`
+**Fix**: [before/after code]
 
 ## Duplicates
 - [type]: [locations] → Extract to shared/[name].md
-
-## Cross-Project (if multiple directories)
-### Consolidation Opportunities
-- [skill-name]: Found in [n] projects → Move to org-level
-- [pattern]: Shared across [n] skills → Create template
 ```
-
-> Rule details and fix patterns: `references/lint-rules.md`
 
 ## Next Step
 

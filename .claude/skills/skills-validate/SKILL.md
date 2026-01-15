@@ -19,37 +19,17 @@ This is **Step 3** of the refactoring workflow:
 
 ### Step 1: Reference Check
 
-Verify all references created during extraction:
+Verify all references exist and YAML frontmatter is intact.
 
-```
-For each SKILL.md:
-  - [ ] All `shared/*.md` references exist
-  - [ ] All markdown links work
-  - [ ] YAML frontmatter intact
-```
+> Checklist: `references/checklist.md`
 
 ### Step 2: Content Check
 
-Compare before/after to ensure no accidental changes:
-
-| Check | Pass Criteria |
-|-------|---------------|
-| Triggers | Same phrases still activate skill |
-| Actions | Same behavior described |
-| Output | Same format expected |
+Compare before/after to ensure triggers, actions, and output format unchanged.
 
 ### Step 3: Generate Test Prompts
 
-For each refactored skill, create test prompts from description:
-
-```markdown
-## Test: [skill-name]
-
-| Prompt | Expected |
-|--------|----------|
-| "[trigger from description]" | Skill activates |
-| "[alternative phrasing]" | Same behavior |
-```
+Create test prompts from each skill's description to verify activation.
 
 ## Output
 
@@ -61,8 +41,7 @@ For each refactored skill, create test prompts from description:
 - [ ] skill-b: Missing `shared/example.md`
 
 ## Test Prompts
-### skill-a
-- "process this document" → Should activate
+- "[trigger phrase]" → Should activate [skill-name]
 
 ## Issues Found
 - [List any problems]

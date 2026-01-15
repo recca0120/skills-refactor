@@ -19,80 +19,43 @@ This is **Step 2** of the refactoring workflow:
 
 ### Step 1: Review Duplicates
 
-From the analysis report, identify:
-- What content is duplicated
-- Where it appears (file:line)
-- Which strategy to use
+From the analysis report, identify what content is duplicated and where.
 
 ### Step 2: Choose Strategy
 
-| Duplicate Type | Strategy | When to Use |
-|----------------|----------|-------------|
-| Exact (100%) | Extract | Identical blocks across files |
-| Near (≥80%) | Parameterize | Same structure, minor differences |
-| Structural | Template | Same pattern, different values |
+| Duplicate Type | Strategy |
+|----------------|----------|
+| Exact (100%) | Extract to shared file |
+| Near (≥80%) | Parameterize or extract |
+| Structural | Create template |
 
-### Step 3: Auto-Generate Refactoring Plan
+### Step 3: Generate Dry-Run Plan
 
-Generate a dry-run preview before making changes:
+Show preview before making changes:
+- What shared file will be created
+- What lines will be replaced in each SKILL.md
 
-```markdown
-## Refactoring Plan (Dry-Run)
-
-### Action 1: Create shared/[auto-generated-name].md
-\`\`\`markdown
-[content to be extracted]
-\`\`\`
-
-### Action 2: Update [skill-a]/SKILL.md
-\`\`\`diff
-- [original lines 10-20]
-+ > See `shared/[name].md` for [description]
-\`\`\`
-
-### Action 3: Update [skill-b]/SKILL.md
-\`\`\`diff
-- [original lines 15-25]
-+ > See `shared/[name].md` for [description]
-\`\`\`
-```
-
-> Naming guidelines: `references/example.md`
+> Example: `references/example.md`
 
 ### Step 4: Execute with Confirmation
 
-After user confirms the plan:
-
-1. **Create** the shared file with extracted content
-2. **Update** each SKILL.md with reference
-3. **Verify** all references are valid
-
-### Step 5: Verify
-
-- [ ] All references point to existing files
-- [ ] YAML frontmatter intact in all SKILL.md
-- [ ] No content accidentally removed
-
-## Example
-
-> See `references/example.md` for a complete before/after refactoring example.
+After user confirms:
+1. Create shared file
+2. Update each SKILL.md with reference
+3. Verify all references are valid
 
 ## Output
 
 ```markdown
 # Extraction Complete
 
-## Dry-Run Preview
-[Show plan before execution]
-
 ## Changes Made
 - Created: shared/[name].md ([n] lines)
-- Modified: [skill-a]/SKILL.md (-[n] lines)
-- Modified: [skill-b]/SKILL.md (-[n] lines)
+- Modified: [skill]/SKILL.md (-[n] lines)
 
 ## Summary
-- Duplicates eliminated: [n] locations → 1 source
-- Lines saved: [total lines reduced]
+- Duplicates eliminated: [n] → 1
+- Lines saved: [total]
 ```
 
 ## Next Step
