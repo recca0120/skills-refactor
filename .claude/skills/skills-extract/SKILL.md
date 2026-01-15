@@ -32,21 +32,42 @@ From the analysis report, identify:
 | Near (≥80%) | Parameterize | Same structure, minor differences |
 | Structural | Template | Same pattern, different values |
 
-### Step 3: Execute
+### Step 3: Auto-Generate Refactoring Plan
 
-**Extract** (for exact duplicates):
-```
-1. Create shared/[name].md with the content
-2. Replace original with: > See `shared/[name].md`
+Generate a dry-run preview before making changes:
+
+```markdown
+## Refactoring Plan (Dry-Run)
+
+### Action 1: Create shared/[auto-generated-name].md
+\`\`\`markdown
+[content to be extracted]
+\`\`\`
+
+### Action 2: Update [skill-a]/SKILL.md
+\`\`\`diff
+- [original lines 10-20]
++ > See `shared/[name].md` for [description]
+\`\`\`
+
+### Action 3: Update [skill-b]/SKILL.md
+\`\`\`diff
+- [original lines 15-25]
++ > See `shared/[name].md` for [description]
+\`\`\`
 ```
 
-**Parameterize** (for near duplicates):
-```
-1. Create shared/[name].md with {{placeholders}}
-2. Each skill references + provides specific values
-```
+> Naming guidelines: `references/example.md`
 
-### Step 4: Verify
+### Step 4: Execute with Confirmation
+
+After user confirms the plan:
+
+1. **Create** the shared file with extracted content
+2. **Update** each SKILL.md with reference
+3. **Verify** all references are valid
+
+### Step 5: Verify
 
 - [ ] All references point to existing files
 - [ ] YAML frontmatter intact in all SKILL.md
@@ -61,12 +82,17 @@ From the analysis report, identify:
 ```markdown
 # Extraction Complete
 
-## Changes
+## Dry-Run Preview
+[Show plan before execution]
+
+## Changes Made
 - Created: shared/[name].md ([n] lines)
-- Modified: [skill]/SKILL.md (-[n] lines)
+- Modified: [skill-a]/SKILL.md (-[n] lines)
+- Modified: [skill-b]/SKILL.md (-[n] lines)
 
 ## Summary
 - Duplicates eliminated: [n] locations → 1 source
+- Lines saved: [total lines reduced]
 ```
 
 ## Next Step

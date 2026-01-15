@@ -108,3 +108,48 @@ description: "Analyzes documents..."
 | Total lines | 32 | 26 |
 | Duplicate locations | 2 | 0 |
 | Shared files | 0 | 1 |
+
+---
+
+## Auto-naming Guidelines
+
+When creating shared files, use these naming conventions:
+
+### Content-based Naming
+
+| Content Type | Generated Name |
+|--------------|----------------|
+| Workflow diagram (box characters) | `workflow-diagram.md` |
+| Reference list (links/resources) | `reference-resources.md` |
+| Output format (Field/Type table) | `output-format.md` |
+| Step instructions (numbered) | `step-instructions.md` |
+| Code snippet | `code-[language].md` |
+
+### Section-based Naming
+
+Use markdown headings when present:
+
+```markdown
+## Workflow Diagram    →  shared/workflow-diagram.md
+## Reference Resources →  shared/reference-resources.md
+## Output Format       →  shared/output-format.md
+```
+
+### Naming Rules
+
+1. Convert to `lowercase-with-hyphens`
+2. Keep names descriptive but concise
+3. Add numeric suffix if name exists: `workflow-diagram-2.md`
+
+### Reference Format
+
+**For exact duplicates:**
+```markdown
+> See `shared/[name].md`
+```
+
+**For near duplicates with context:**
+```markdown
+> **Current stage: [Stage Name]**
+> See `shared/workflow-stages.md` for the full workflow diagram.
+```
