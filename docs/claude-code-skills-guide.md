@@ -1,5 +1,7 @@
 # Claude Code Skills 完整指南
 
+[English Version](claude-code-skills-guide.en.md)
+
 ## 目錄
 
 1. [概述](#概述)
@@ -122,7 +124,7 @@ name: claude-helper      # 保留字
 
 ### description 規則
 
-**永遠使用第三人稱**。description 會注入系統 prompt，不一致的人稱會導致發現問題。
+**永遠使用第三人稱**。description 會注入系統 prompt，不一致的人稱會導致 Claude 難以正確識別和觸發 Skill。
 
 ```yaml
 # 正確
