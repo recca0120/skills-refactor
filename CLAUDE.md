@@ -49,16 +49,20 @@ description: "第三人稱描述..."   # 必填，最多 1024 字元
 - **name 欄位**: 小寫、數字、連字號（禁用 "anthropic" 或 "claude"）
 - **description**: 使用第三人稱，避免 "I" 或 "my"
 
-## Lint 規則（18 條）
+## Lint 規則（22 條）
 
 ### Frontmatter 規則
 - `frontmatter/required` - 必須有 YAML frontmatter
+- `frontmatter/starts-line-one` - frontmatter 必須從第 1 行開始
 - `frontmatter/name-format` - 小寫、數字、連字號
+- `frontmatter/name-no-xml` - name 不能含 XML 標籤
 - `frontmatter/description-no-first-person` - 使用第三人稱
+- `frontmatter/description-no-xml` - description 不能含 XML 標籤
 
 ### Content 規則
 - `content/max-lines` - 內容最多 500 行
 - `content/no-windows-paths` - 使用 `/` 而非 `\`
+- `content/spaces-not-tabs` - 使用空格縮排，不用 tab
 
 ### Naming 規則
 - `naming/prefer-gerund` - 使用動名詞形式
@@ -92,8 +96,17 @@ description: "第三人稱描述..."   # 必填，最多 1024 字元
 
 - 修改技能時，確保 YAML frontmatter 格式正確
 - 新增引用時，確保目標文件存在
-- 測試變更時，可使用 `examples/sample-skills/Skill_C/` 作為違規範例
 - 文檔需維護英文和繁體中文兩個版本
+
+## 測試範例
+
+| 範例 | 類型 | 展示的規則/模式 |
+|------|------|-----------------|
+| `skill-a/`, `skill-b/` | 正確 | 精確重複、近似重複、結構重複 |
+| `Skill_C/` | 違規 | name-format, description-no-first-person, windows-paths, secrets |
+| `Skill_D/` | 違規 | starts-line-one, name-no-xml, description-no-xml |
+| `Skill_E/` | 違規 | spaces-not-tabs |
+| `helper/` | 違規 | name-no-reserved, naming/no-vague |
 
 ## 重要參考文件
 

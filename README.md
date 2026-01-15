@@ -80,13 +80,16 @@ Based on [Anthropic's official Skill authoring best practices](https://platform.
 | Rule | Description | Severity |
 |------|-------------|----------|
 | `frontmatter/required` | Must have YAML frontmatter | Error |
+| `frontmatter/starts-line-one` | Frontmatter must start on line 1 | Error |
 | `frontmatter/name-required` | Must have `name` field | Error |
 | `frontmatter/name-max-length` | `name` <= 64 characters | Error |
 | `frontmatter/name-format` | `name` uses lowercase, numbers, hyphens only | Error |
 | `frontmatter/name-no-reserved` | No "anthropic" or "claude" in name | Error |
+| `frontmatter/name-no-xml` | No XML tags in `name` | Error |
 | `frontmatter/description-required` | Must have `description` field | Error |
 | `frontmatter/description-max-length` | `description` <= 1024 characters | Error |
 | `frontmatter/description-no-first-person` | Use third person in description | Warning |
+| `frontmatter/description-no-xml` | No XML tags in `description` | Error |
 
 ### Content Rules
 
@@ -94,6 +97,7 @@ Based on [Anthropic's official Skill authoring best practices](https://platform.
 |------|-------------|----------|
 | `content/max-lines` | SKILL.md <= 500 lines | Warning |
 | `content/no-windows-paths` | Use forward slashes `/` | Warning |
+| `content/spaces-not-tabs` | Use spaces for indentation, not tabs | Warning |
 
 ### Naming Rules
 
@@ -139,9 +143,12 @@ skills-refactor/
 │
 ├── examples/                       # Test examples (don't copy)
 │   └── sample-skills/
-│       ├── skill-a/
-│       ├── skill-b/
-│       └── Skill_C/                # Contains intentional lint violations
+│       ├── skill-a/                # Correct example (shows exact/near duplicates)
+│       ├── skill-b/                # Correct example (shows exact/near duplicates)
+│       ├── Skill_C/                # Violations: name-format, secrets, windows-paths
+│       ├── Skill_D/                # Violations: starts-line-one, name-no-xml, description-no-xml
+│       ├── Skill_E/                # Violations: spaces-not-tabs
+│       └── helper/                 # Violations: name-no-reserved, naming/no-vague
 │
 └── docs/
     └── claude-code-skills-guide.md

@@ -18,6 +18,28 @@ description: Does something useful
 ---
 ```
 
+### frontmatter/starts-line-one
+**Severity**: Error
+
+The frontmatter must start on line 1. No blank lines or content before the opening `---`.
+
+```yaml
+# Good (starts on line 1)
+---
+name: my-skill
+description: Does something useful
+---
+
+# Bad (blank line before frontmatter)
+
+---
+name: my-skill
+description: Does something useful
+---
+```
+
+**Why**: Claude Code expects the frontmatter to begin immediately at line 1 for proper parsing.
+
 ### frontmatter/name-required
 **Severity**: Error
 
@@ -60,6 +82,19 @@ name: claude-helper
 name: anthropic-tools
 ```
 
+### frontmatter/name-no-xml
+**Severity**: Error
+
+The `name` field cannot contain XML tags.
+
+```yaml
+# Bad
+name: my-skill<tag>
+name: <skill>processing
+```
+
+**Why**: XML tags in the name field can interfere with Claude's system prompt injection.
+
 ### frontmatter/description-required
 **Severity**: Error
 
@@ -84,6 +119,19 @@ description: "Extracts text from PDF documents"
 description: "I can help you process Excel files"
 description: "You can use this to extract PDF text"
 ```
+
+### frontmatter/description-no-xml
+**Severity**: Error
+
+The `description` field cannot contain XML tags.
+
+```yaml
+# Bad
+description: "Processes <data> from files"
+description: "<tool>Extracts text</tool> from PDFs"
+```
+
+**Why**: XML tags in the description field can interfere with Claude's system prompt injection and skill discovery.
 
 ---
 
@@ -117,6 +165,27 @@ Reference: `reference\guide.md`
 ```
 
 **Why**: Unix-style paths work across all platforms, while Windows-style paths cause errors on Unix systems.
+
+### content/spaces-not-tabs
+**Severity**: Warning
+
+Use spaces for indentation in YAML frontmatter, not tabs.
+
+```yaml
+# Good (spaces)
+---
+name: my-skill
+description: "Does something useful"
+---
+
+# Bad (tabs)
+---
+name:	my-skill
+description:	"Does something useful"
+---
+```
+
+**Why**: YAML specification recommends spaces over tabs. Tabs can cause parsing issues in some YAML parsers.
 
 ---
 
