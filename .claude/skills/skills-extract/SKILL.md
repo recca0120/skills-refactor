@@ -19,54 +19,43 @@ This is **Step 2** of the refactoring workflow:
 
 ### Step 1: Review Duplicates
 
-From the analysis report, identify:
-- What content is duplicated
-- Where it appears (file:line)
-- Which strategy to use
+From the analysis report, identify what content is duplicated and where.
 
 ### Step 2: Choose Strategy
 
-| Duplicate Type | Strategy | When to Use |
-|----------------|----------|-------------|
-| Exact (100%) | Extract | Identical blocks across files |
-| Near (≥80%) | Parameterize | Same structure, minor differences |
-| Structural | Template | Same pattern, different values |
+| Duplicate Type | Strategy |
+|----------------|----------|
+| Exact (100%) | Extract to shared file |
+| Near (≥80%) | Parameterize or extract |
+| Structural | Create template |
 
-### Step 3: Execute
+### Step 3: Generate Dry-Run Plan
 
-**Extract** (for exact duplicates):
-```
-1. Create shared/[name].md with the content
-2. Replace original with: > See `shared/[name].md`
-```
+Show preview before making changes:
+- What shared file will be created
+- What lines will be replaced in each SKILL.md
 
-**Parameterize** (for near duplicates):
-```
-1. Create shared/[name].md with {{placeholders}}
-2. Each skill references + provides specific values
-```
+> Example: `references/example.md`
 
-### Step 4: Verify
+### Step 4: Execute with Confirmation
 
-- [ ] All references point to existing files
-- [ ] YAML frontmatter intact in all SKILL.md
-- [ ] No content accidentally removed
-
-## Example
-
-> See `references/example.md` for a complete before/after refactoring example.
+After user confirms:
+1. Create shared file
+2. Update each SKILL.md with reference
+3. Verify all references are valid
 
 ## Output
 
 ```markdown
 # Extraction Complete
 
-## Changes
+## Changes Made
 - Created: shared/[name].md ([n] lines)
 - Modified: [skill]/SKILL.md (-[n] lines)
 
 ## Summary
-- Duplicates eliminated: [n] locations → 1 source
+- Duplicates eliminated: [n] → 1
+- Lines saved: [total]
 ```
 
 ## Next Step

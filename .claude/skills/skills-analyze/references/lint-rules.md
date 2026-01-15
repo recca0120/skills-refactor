@@ -12,10 +12,18 @@ Detailed explanations for each lint rule, based on [Anthropic's official Skill a
 Every SKILL.md must start with YAML frontmatter enclosed in `---` delimiters.
 
 ```yaml
+# Before (missing frontmatter)
+# My Skill
+Instructions here...
+
+# After
 ---
 name: my-skill
-description: Does something useful
+description: "Describes what this skill does. Use when..."
 ---
+
+# My Skill
+Instructions here...
 ```
 
 ### frontmatter/starts-line-one
@@ -24,18 +32,16 @@ description: Does something useful
 The frontmatter must start on line 1. No blank lines or content before the opening `---`.
 
 ```yaml
-# Good (starts on line 1)
----
-name: my-skill
-description: Does something useful
----
-
-# Bad (blank line before frontmatter)
+# Before (blank line at start)
 
 ---
 name: my-skill
-description: Does something useful
+...
+
+# After
 ---
+name: my-skill
+...
 ```
 
 **Why**: Claude Code expects the frontmatter to begin immediately at line 1 for proper parsing.
@@ -50,37 +56,35 @@ The `name` field is required in frontmatter.
 
 The `name` field must be at most 64 characters.
 
+```yaml
+# Before
+name: this-is-a-very-long-skill-name-that-exceeds-the-maximum-allowed-length
+
+# After
+name: long-skill-name
+```
+
 ### frontmatter/name-format
 **Severity**: Error
 
-The `name` field must contain only:
-- Lowercase letters (a-z)
-- Numbers (0-9)
-- Hyphens (-)
+The `name` field must contain only lowercase letters (a-z), numbers (0-9), and hyphens (-).
 
-```yaml
-# Good
-name: processing-pdfs
-name: code-review-2
-
-# Bad
-name: Processing_PDFs    # uppercase, underscore
-name: code review        # space
-name: my.skill           # period
-```
+| Before | After |
+|--------|-------|
+| `Helper_Tool` | `helper-tool` |
+| `My Skill` | `my-skill` |
+| `ProcessPDFs` | `process-pdfs` |
+| `my.skill` | `my-skill` |
 
 ### frontmatter/name-no-reserved
 **Severity**: Error
 
-The `name` field cannot contain reserved words:
-- `anthropic`
-- `claude`
+The `name` field cannot contain reserved words: `anthropic`, `claude`.
 
-```yaml
-# Bad
-name: claude-helper
-name: anthropic-tools
-```
+| Before | After |
+|--------|-------|
+| `claude-helper` | `code-helper` |
+| `anthropic-tools` | `ai-tools` |
 
 ### frontmatter/name-no-xml
 **Severity**: Error
@@ -88,9 +92,11 @@ name: anthropic-tools
 The `name` field cannot contain XML tags.
 
 ```yaml
-# Bad
-name: my-skill<tag>
-name: <skill>processing
+# Before
+name: data<processor>
+
+# After
+name: data-processor
 ```
 
 **Why**: XML tags in the name field can interfere with Claude's system prompt injection.
@@ -108,17 +114,12 @@ The `description` field must be at most 1024 characters.
 ### frontmatter/description-no-first-person
 **Severity**: Warning
 
-The `description` should use third person, not first or second person. The description is injected into the system prompt, and inconsistent point-of-view can cause discovery problems.
+The `description` should use third person. The description is injected into the system prompt, and inconsistent point-of-view can cause discovery problems.
 
-```yaml
-# Good
-description: "Processes Excel files and generates reports"
-description: "Extracts text from PDF documents"
-
-# Bad
-description: "I can help you process Excel files"
-description: "You can use this to extract PDF text"
-```
+| Before | After |
+|--------|-------|
+| `"I can help you process files"` | `"Processes files and extracts content. Use when..."` |
+| `"You can use this to..."` | `"Used for..."` |
 
 ### frontmatter/description-no-xml
 **Severity**: Error
@@ -126,9 +127,11 @@ description: "You can use this to extract PDF text"
 The `description` field cannot contain XML tags.
 
 ```yaml
-# Bad
-description: "Processes <data> from files"
-description: "<tool>Extracts text</tool> from PDFs"
+# Before
+description: "Processes <data> tags"
+
+# After
+description: "Processes data tags"
 ```
 
 **Why**: XML tags in the description field can interfere with Claude's system prompt injection and skill discovery.
@@ -140,29 +143,29 @@ description: "<tool>Extracts text</tool> from PDFs"
 ### content/max-lines
 **Severity**: Warning
 
-The SKILL.md body (excluding frontmatter) should be at most 500 lines. If content exceeds this, use progressive disclosure by splitting into separate reference files.
+The SKILL.md body (excluding frontmatter) should be at most 500 lines.
+
+```markdown
+# Before (600 lines in SKILL.md)
+## Detailed API Reference
+[300 lines of API docs]
+
+# After
+## API Reference
+See `references/api.md` for detailed documentation.
+```
 
 **Why**: The context window is a shared resource. Keeping SKILL.md concise ensures efficient token usage.
-
-**Fix**: Move detailed content to `references/` directory and link from SKILL.md:
-```markdown
-For detailed API reference, see `references/api.md`
-```
 
 ### content/no-windows-paths
 **Severity**: Warning
 
 Use forward slashes (`/`) for all file paths, even on Windows.
 
-```markdown
-# Good
-See `scripts/helper.py`
-Reference: `reference/guide.md`
-
-# Bad
-See `scripts\helper.py`
-Reference: `reference\guide.md`
-```
+| Before | After |
+|--------|-------|
+| `docs\guide.md` | `docs/guide.md` |
+| `scripts\helper.py` | `scripts/helper.py` |
 
 **Why**: Unix-style paths work across all platforms, while Windows-style paths cause errors on Unix systems.
 
@@ -172,17 +175,13 @@ Reference: `reference\guide.md`
 Use spaces for indentation in YAML frontmatter, not tabs.
 
 ```yaml
-# Good (spaces)
----
-name: my-skill
-description: "Does something useful"
----
-
-# Bad (tabs)
----
+# Before (with tabs)
 name:	my-skill
 description:	"Does something useful"
----
+
+# After (with spaces)
+name: my-skill
+description: "Does something useful"
 ```
 
 **Why**: YAML specification recommends spaces over tabs. Tabs can cause parsing issues in some YAML parsers.
@@ -196,38 +195,35 @@ description:	"Does something useful"
 
 Skill directory names should use gerund form (verb + -ing) to clearly describe the activity.
 
-```
-# Recommended (gerund)
-processing-pdfs/
-analyzing-code/
-generating-tests/
-
-# Acceptable alternatives
-pdf-processing/
-code-analyzer/
-```
+| Before | After |
+|--------|-------|
+| `pdf-tool/` | `processing-pdfs/` |
+| `code-review/` | `reviewing-code/` |
+| `test-gen/` | `generating-tests/` |
 
 ### naming/no-vague
 **Severity**: Warning
 
-Avoid vague, non-descriptive names:
-- `helper`
-- `utils`
-- `tools`
-- `misc`
-- `common`
+Avoid vague, non-descriptive names: `helper`, `utils`, `tools`, `misc`, `common`.
+
+| Before | After |
+|--------|-------|
+| `helper/` | `processing-documents/` |
+| `utils/` | `formatting-code/` |
+| `tools/` | `analyzing-data/` |
 
 **Why**: These names don't describe what the skill does, making it hard for Claude to determine when to use it.
 
 ### naming/no-generic
 **Severity**: Warning
 
-Avoid overly generic names:
-- `documents`
-- `data`
-- `files`
-- `stuff`
-- `things`
+Avoid overly generic names: `documents`, `data`, `files`, `stuff`, `things`.
+
+| Before | After |
+|--------|-------|
+| `documents/` | `converting-documents/` |
+| `data/` | `transforming-data/` |
+| `files/` | `managing-config-files/` |
 
 **Why**: Generic names don't help Claude understand when to activate the skill.
 
@@ -240,15 +236,20 @@ Avoid overly generic names:
 
 All file references in SKILL.md must point to existing files.
 
-Check for patterns like:
-- `See [filename](path)`
-- `See \`path/to/file\``
-- `Reference: path/to/file`
+```markdown
+# Option 1: Fix the path
+# Before
+See `references/guide.md`
+# After (if file is named differently)
+See `references/user-guide.md`
+
+# Option 2: Create the missing file
+```
 
 ### reference/max-depth
 **Severity**: Warning
 
-Keep references one level deep from SKILL.md. All reference files should link directly from SKILL.md to ensure Claude reads complete files when needed.
+Keep references one level deep from SKILL.md.
 
 ```
 # Good (one level)
@@ -268,27 +269,24 @@ SKILL.md → references/api.md → references/details.md
 ### security/no-secrets
 **Severity**: Error
 
-SKILL.md must not contain sensitive information:
-- API keys (patterns like `sk-`, `api_key=`, `apikey:`)
-- Passwords
-- Access tokens
-- Private keys
-- Connection strings with credentials
+SKILL.md must not contain sensitive information: API keys, passwords, access tokens, private keys, connection strings with credentials.
+
+```yaml
+# Before
+api_key = sk-1234567890abcdef
+password = mysecretpassword
+
+# After (use environment variables)
+api_key = ${API_KEY}
+password = ${PASSWORD}
+```
 
 **Detection patterns**:
 ```
-# API Keys
 sk-[a-zA-Z0-9]{20,}
 api[_-]?key\s*[:=]\s*['"]?[a-zA-Z0-9]+
-
-# AWS
 AKIA[0-9A-Z]{16}
-aws[_-]?secret[_-]?access[_-]?key
-
-# Generic secrets
 password\s*[:=]\s*['"]?[^\s'"]+
-secret\s*[:=]\s*['"]?[^\s'"]+
-token\s*[:=]\s*['"]?[^\s'"]+
 ```
 
 ---
@@ -300,3 +298,25 @@ token\s*[:=]\s*['"]?[^\s'"]+
 | **Error** | Critical issue that will cause problems | Must fix |
 | **Warning** | Issue that may cause problems or violates best practices | Should fix |
 | **Info** | Suggestion for improvement | Consider fixing |
+
+---
+
+## Quality Score Calculation
+
+```
+Score = 100 - (Errors × 10) - (Warnings × 5) + BonusPoints (max 100)
+
+BonusPoints (up to +20):
+  + 5 if using gerund naming
+  + 5 if description includes "Use when"
+  + 5 if references are well-organized
+  + 5 if under 200 lines (concise)
+```
+
+| Score | Grade | Meaning |
+|-------|-------|---------|
+| 90-100 | A | Excellent - follows all best practices |
+| 80-89 | B | Good - minor improvements possible |
+| 70-79 | C | Fair - some issues to address |
+| 60-69 | D | Poor - significant issues |
+| <60 | F | Failing - needs major revision |

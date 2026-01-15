@@ -17,35 +17,25 @@ This is **Step 1** of the refactoring workflow:
 
 ### Step 1: Scan Skills
 
-Locate all `SKILL.md` files in the target directory:
-- Project: `.claude/skills/`
-- Personal: `~/.claude/skills/`
+Locate all `SKILL.md` files in `.claude/skills/` or `~/.claude/skills/`.
 
 ### Step 2: Check Issues
 
-For each SKILL.md, check:
-
-| Category | Rules | Severity |
-|----------|-------|----------|
-| frontmatter | name, description format | Error |
-| content | max 500 lines, no `\` paths | Warning |
-| naming | prefer verb-ing, no vague names | Warning/Info |
-| reference | all paths must exist | Error |
-| security | no secrets/API keys | Error |
+For each SKILL.md, check lint rules (frontmatter, content, naming, reference, security).
 
 > Rule details: `references/lint-rules.md`
 
 ### Step 3: Detect Duplicates
 
-Compare content across all SKILL.md files:
-
-| Type | Criteria | Action |
-|------|----------|--------|
-| Exact | 100% identical, ≥5 lines | Extract to shared/ |
-| Near | ≥80% similar | Parameterize or extract |
-| Structural | Same pattern, different values | Create template |
+Compare content across all SKILL.md files for exact (100%), near (≥80%), or structural duplicates.
 
 > Detection patterns: `references/duplicate-patterns.md`
+
+### Step 4: Calculate Quality Score
+
+Score = 100 - (Errors × 10) - (Warnings × 5) + Bonus (max 100)
+
+> Score details: `references/lint-rules.md#quality-score-calculation`
 
 ## Output
 
@@ -53,10 +43,12 @@ Compare content across all SKILL.md files:
 # Analysis Report
 
 ## Summary
-- Skills: [count] | Errors: [n] | Warnings: [n] | Duplicates: [n]
+- Skills: [count] | Score: [0-100] | Errors: [n] | Warnings: [n]
 
 ## Issues
-- `[rule]` skill-name/SKILL.md:[line] - [message]
+### `[rule]` skill-name/SKILL.md:[line]
+**Problem**: [description]
+**Fix**: [before/after code]
 
 ## Duplicates
 - [type]: [locations] → Extract to shared/[name].md

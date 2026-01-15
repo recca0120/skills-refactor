@@ -8,10 +8,12 @@ A set of Claude Code Skills for analyzing, refactoring, and validating Claude Co
 
 ## Features
 
-- **Lint Checking**: Validate skills against official best practices
+- **Lint Checking**: Validate skills against 18 official best practice rules
+- **Quality Scoring**: Calculate 0-100 score based on rule compliance
 - **Duplicate Detection**: Find exact, near, and structural duplicates
 - **Refactoring**: Extract common content into shared modules
 - **Validation**: Verify refactored skills still work correctly
+- **Context Efficient**: Optimized for minimal token usage (~4,400 tokens total)
 
 ## Installation
 
@@ -119,6 +121,28 @@ Based on [Anthropic's official Skill authoring best practices](https://platform.
 | Rule | Description | Severity |
 |------|-------------|----------|
 | `security/no-secrets` | No API keys, passwords, tokens | Error |
+
+## Quality Score
+
+Skills are scored 0-100 based on rule compliance:
+
+```
+Score = 100 - (Errors × 10) - (Warnings × 5) + Bonus (max 100)
+
+Bonus points:
+  +5 for gerund naming (e.g., processing-pdfs)
+  +5 for "Use when" in description
+  +5 for well-organized references
+  +5 for under 200 lines
+```
+
+| Score | Grade | Meaning |
+|-------|-------|---------|
+| 90-100 | A | Excellent |
+| 80-89 | B | Good |
+| 70-79 | C | Fair |
+| 60-69 | D | Poor |
+| <60 | F | Needs revision |
 
 ## Project Structure
 
