@@ -15,7 +15,7 @@ Claude Code Skills 開發和維護工具包，提供技能分析、重構和驗�
 ```
 .claude/skills/           # 主要技能目錄
 ├── skills-analyze/       # 分析技能（含 lint-rules.md, duplicate-patterns.md）
-├── skills-extract/       # 重構技能（含 shared-reference.md 模板）
+├── skills-extract/       # 重構技能（含 example.md 範例）
 └── skills-validate/      # 驗證技能（含 checklist.md）
 examples/sample-skills/   # 測試範例（包含正確和故意違規的範例）
 docs/                     # 文檔（claude-code-skills-guide.md）
@@ -99,4 +99,4 @@ description: "第三人稱描述..."   # 必填，最多 1024 字元
 
 - `docs/claude-code-skills-guide.md` - 完整的 Claude Code Skills 指南
 - `.claude/skills/skills-analyze/references/lint-rules.md` - 詳細 lint 規則說明
-- `.claude/skills/skills-extract/templates/shared-reference.md` - 共享引用模板
+- `.claude/skills/skills-extract/references/example.md` - 重構範例

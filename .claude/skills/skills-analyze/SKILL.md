@@ -1,134 +1,67 @@
 ---
 name: analyzing-skills
-description: "Analyzes Claude Code Skills directories for lint issues and duplicate content. Use when user asks to analyze skills, lint skills, check skills quality, find duplicates, or review skills structure."
+description: "Analyzes Claude Code Skills for lint issues and duplicate content. Use when user asks to analyze skills, lint skills, check quality, or find duplicates."
 ---
 
 # Skills Analyzer
 
-Analyzes Claude Code Skills for quality issues (lint) and duplicate content.
+## When to Use
 
-## Trigger Conditions
+This is **Step 1** of the refactoring workflow:
 
-Activate when user requests:
-- "analyze skills", "lint skills", "check skills"
-- "find duplicates in skills", "check skills quality"
-- "review skills structure"
+1. **analyze** ← You are here
+2. extract → Run after analysis identifies issues
+3. validate → Run after extraction completes
 
 ## Workflow
 
-### Step 1: Identify Target Directory
+### Step 1: Scan Skills
 
-Ask user for the skills directory path if not specified. Common locations:
-- `.claude/skills/` (project)
-- `~/.claude/skills/` (personal)
+Locate all `SKILL.md` files in the target directory:
+- Project: `.claude/skills/`
+- Personal: `~/.claude/skills/`
 
-### Step 2: Scan All Skills
+### Step 2: Check Issues
 
-For each subdirectory containing `SKILL.md`:
-1. Read and parse the SKILL.md file
-2. Extract YAML frontmatter
-3. Analyze content structure
+For each SKILL.md, check:
 
-### Step 3: Run Lint Checks
+| Category | Rules | Severity |
+|----------|-------|----------|
+| frontmatter | name, description format | Error |
+| content | max 500 lines, no `\` paths | Warning |
+| naming | prefer verb-ing, no vague names | Warning/Info |
+| reference | all paths must exist | Error |
+| security | no secrets/API keys | Error |
 
-Execute lint rules in this order:
+> Rule details: `references/lint-rules.md`
 
-#### 3.1 Frontmatter Rules (Critical)
-
-Check each SKILL.md for:
-
-| Rule | Check | Severity |
-|------|-------|----------|
-| `frontmatter/required` | Has YAML frontmatter (starts with `---`) | Error |
-| `frontmatter/name-required` | Has `name` field | Error |
-| `frontmatter/name-max-length` | `name` <= 64 characters | Error |
-| `frontmatter/name-format` | `name` uses only lowercase, numbers, hyphens | Error |
-| `frontmatter/name-no-reserved` | `name` doesn't contain "anthropic" or "claude" | Error |
-| `frontmatter/description-required` | Has `description` field | Error |
-| `frontmatter/description-max-length` | `description` <= 1024 characters | Error |
-| `frontmatter/description-no-first-person` | No "I can", "I will", "You can" in description | Warning |
-
-#### 3.2 Content Rules
-
-| Rule | Check | Severity |
-|------|-------|----------|
-| `content/max-lines` | SKILL.md body <= 500 lines | Warning |
-| `content/no-windows-paths` | No backslash paths (use `/` not `\`) | Warning |
-
-#### 3.3 Naming Rules
-
-| Rule | Check | Severity |
-|------|-------|----------|
-| `naming/prefer-gerund` | Directory name uses verb-ing form | Info |
-| `naming/no-vague` | Not named helper, utils, tools, etc. | Warning |
-| `naming/no-generic` | Not named documents, data, files, etc. | Warning |
-
-#### 3.4 Reference Rules
-
-| Rule | Check | Severity |
-|------|-------|----------|
-| `reference/valid-paths` | All referenced files exist | Error |
-| `reference/max-depth` | References are max 1 level deep | Warning |
-
-#### 3.5 Security Rules
-
-| Rule | Check | Severity |
-|------|-------|----------|
-| `security/no-secrets` | No API keys, passwords, tokens | Error |
-
-> For detailed rule explanations, see `references/lint-rules.md`
-
-### Step 4: Detect Duplicates
+### Step 3: Detect Duplicates
 
 Compare content across all SKILL.md files:
 
-1. **Exact duplicates**: Identical text blocks (>= 5 lines)
-2. **Near duplicates**: Similar blocks (>= 80% similarity)
-3. **Structural duplicates**: Same patterns with different values
+| Type | Criteria | Action |
+|------|----------|--------|
+| Exact | 100% identical, ≥5 lines | Extract to shared/ |
+| Near | ≥80% similar | Parameterize or extract |
+| Structural | Same pattern, different values | Create template |
 
-> For duplicate detection patterns, see `references/duplicate-patterns.md`
+> Detection patterns: `references/duplicate-patterns.md`
 
-### Step 5: Generate Report
-
-Output a structured markdown report:
+## Output
 
 ```markdown
-# Skills Analysis Report
+# Analysis Report
 
 ## Summary
-- Directory: [path]
-- Skills scanned: [count]
-- Lint issues: [count] ([errors] Error, [warnings] Warning, [info] Info)
-- Duplicates found: [count]
+- Skills: [count] | Errors: [n] | Warnings: [n] | Duplicates: [n]
 
-## Lint Results
+## Issues
+- `[rule]` skill-name/SKILL.md:[line] - [message]
 
-### Errors ([count])
-- [rule-id] path/SKILL.md:line
-  Description of the issue
-
-### Warnings ([count])
-...
-
-### Info ([count])
-...
-
-## Duplicate Content
-
-### Duplicate #1: [name]
-- Type: [exact/near/structural]
-- Locations:
-  - skill-a/SKILL.md:10-25
-  - skill-b/SKILL.md:15-30
-- Suggestion: Extract to shared/[filename].md
-
-...
+## Duplicates
+- [type]: [locations] → Extract to shared/[name].md
 ```
 
-## Important Notes
+## Next Step
 
-- Always report the full path to each issue
-- Include line numbers when possible
-- Provide actionable suggestions for each issue
-- Group related duplicates together
-- Prioritize Errors > Warnings > Info in the report
+If issues found → Run **skills-extract** to refactor

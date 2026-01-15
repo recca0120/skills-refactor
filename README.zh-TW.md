@@ -129,8 +129,8 @@ skills-refactor/
 │   │
 │   ├── skills-extract/             # 重構 skill
 │   │   ├── SKILL.md
-│   │   └── templates/
-│   │       └── shared-reference.md
+│   │   └── references/
+│   │       └── example.md
 │   │
 │   └── skills-validate/            # 驗證 skill
 │       ├── SKILL.md
