@@ -18,12 +18,16 @@
 將 skills 複製到你的專案或個人 skills 目錄：
 
 ```bash
-# 專案層級
-cp -r .claude/skills/skills-analyze /path/to/your/project/.claude/skills/
-cp -r .claude/skills/skills-extract /path/to/your/project/.claude/skills/
-cp -r .claude/skills/skills-validate /path/to/your/project/.claude/skills/
+# 專案層級（複製全部三個 skills）
+cp -r .claude/skills/skills-* /path/to/your/project/.claude/skills/
 
 # 個人（全域）
+cp -r .claude/skills/skills-* ~/.claude/skills/
+```
+
+或個別複製：
+
+```bash
 cp -r .claude/skills/skills-analyze ~/.claude/skills/
 cp -r .claude/skills/skills-extract ~/.claude/skills/
 cp -r .claude/skills/skills-validate ~/.claude/skills/
@@ -115,27 +119,32 @@ cp -r .claude/skills/skills-validate ~/.claude/skills/
 ## 專案結構
 
 ```
-.claude/skills/
-├── skills-analyze/                 # 分析 + Lint skill
-│   ├── SKILL.md
-│   └── references/
-│       ├── lint-rules.md           # Lint 規則詳細說明
-│       └── duplicate-patterns.md   # 重複檢測模式
+skills-refactor/
+├── .claude/skills/                 # 複製這些到你的專案
+│   ├── skills-analyze/             # 分析 + Lint skill
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── lint-rules.md
+│   │       └── duplicate-patterns.md
+│   │
+│   ├── skills-extract/             # 重構 skill
+│   │   ├── SKILL.md
+│   │   └── templates/
+│   │       └── shared-reference.md
+│   │
+│   └── skills-validate/            # 驗證 skill
+│       ├── SKILL.md
+│       └── references/
+│           └── checklist.md
 │
-├── skills-extract/                 # 重構 skill
-│   ├── SKILL.md
-│   └── templates/
-│       └── shared-reference.md     # 共用檔案模板
+├── examples/                       # 測試範例（不需複製）
+│   └── sample-skills/
+│       ├── skill-a/
+│       ├── skill-b/
+│       └── Skill_C/                # 包含刻意的 lint 違規
 │
-├── skills-validate/                # 驗證 skill
-│   ├── SKILL.md
-│   └── references/
-│       └── checklist.md            # 驗證檢查清單
-│
-└── sample-skills/                  # 測試用 skills（含刻意的問題）
-    ├── skill-a/
-    ├── skill-b/
-    └── Skill_C/                    # 包含多種 lint 違規
+└── docs/
+    └── claude-code-skills-guide.md
 ```
 
 ## 報告範例

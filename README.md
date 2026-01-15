@@ -18,12 +18,16 @@ A set of Claude Code Skills for analyzing, refactoring, and validating Claude Co
 Copy the skills to your project or personal skills directory:
 
 ```bash
-# Project-level
-cp -r .claude/skills/skills-analyze /path/to/your/project/.claude/skills/
-cp -r .claude/skills/skills-extract /path/to/your/project/.claude/skills/
-cp -r .claude/skills/skills-validate /path/to/your/project/.claude/skills/
+# Project-level (copy all three skills)
+cp -r .claude/skills/skills-* /path/to/your/project/.claude/skills/
 
 # Personal (global)
+cp -r .claude/skills/skills-* ~/.claude/skills/
+```
+
+Or copy individually:
+
+```bash
 cp -r .claude/skills/skills-analyze ~/.claude/skills/
 cp -r .claude/skills/skills-extract ~/.claude/skills/
 cp -r .claude/skills/skills-validate ~/.claude/skills/
@@ -115,27 +119,32 @@ Based on [Anthropic's official Skill authoring best practices](https://platform.
 ## Project Structure
 
 ```
-.claude/skills/
-├── skills-analyze/                 # Analyze + Lint skill
-│   ├── SKILL.md
-│   └── references/
-│       ├── lint-rules.md           # Detailed lint rule explanations
-│       └── duplicate-patterns.md   # Duplicate detection patterns
+skills-refactor/
+├── .claude/skills/                 # Copy these to your project
+│   ├── skills-analyze/             # Analyze + Lint skill
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── lint-rules.md
+│   │       └── duplicate-patterns.md
+│   │
+│   ├── skills-extract/             # Refactoring skill
+│   │   ├── SKILL.md
+│   │   └── templates/
+│   │       └── shared-reference.md
+│   │
+│   └── skills-validate/            # Validation skill
+│       ├── SKILL.md
+│       └── references/
+│           └── checklist.md
 │
-├── skills-extract/                 # Refactoring skill
-│   ├── SKILL.md
-│   └── templates/
-│       └── shared-reference.md     # Template for shared files
+├── examples/                       # Test examples (don't copy)
+│   └── sample-skills/
+│       ├── skill-a/
+│       ├── skill-b/
+│       └── Skill_C/                # Contains intentional lint violations
 │
-├── skills-validate/                # Validation skill
-│   ├── SKILL.md
-│   └── references/
-│       └── checklist.md            # Validation checklist
-│
-└── sample-skills/                  # Test skills with intentional issues
-    ├── skill-a/
-    ├── skill-b/
-    └── Skill_C/                    # Contains multiple lint violations
+└── docs/
+    └── claude-code-skills-guide.md
 ```
 
 ## Example Report
