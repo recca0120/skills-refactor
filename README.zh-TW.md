@@ -80,13 +80,16 @@ cp -r .claude/skills/skills-validate ~/.claude/skills/
 | 規則 | 說明 | 嚴重度 |
 |------|------|--------|
 | `frontmatter/required` | 必須有 YAML frontmatter | Error |
+| `frontmatter/starts-line-one` | frontmatter 必須從第 1 行開始 | Error |
 | `frontmatter/name-required` | 必須有 `name` 欄位 | Error |
 | `frontmatter/name-max-length` | `name` 最多 64 字元 | Error |
 | `frontmatter/name-format` | `name` 只能用小寫字母、數字、連字號 | Error |
 | `frontmatter/name-no-reserved` | `name` 不能含 "anthropic" 或 "claude" | Error |
+| `frontmatter/name-no-xml` | `name` 不能含 XML 標籤 | Error |
 | `frontmatter/description-required` | 必須有 `description` 欄位 | Error |
 | `frontmatter/description-max-length` | `description` 最多 1024 字元 | Error |
 | `frontmatter/description-no-first-person` | `description` 要用第三人稱 | Warning |
+| `frontmatter/description-no-xml` | `description` 不能含 XML 標籤 | Error |
 
 ### 內容規則
 
@@ -94,6 +97,7 @@ cp -r .claude/skills/skills-validate ~/.claude/skills/
 |------|------|--------|
 | `content/max-lines` | SKILL.md 最多 500 行 | Warning |
 | `content/no-windows-paths` | 使用正斜線 `/` | Warning |
+| `content/spaces-not-tabs` | 使用空格縮排，不用 tab | Warning |
 
 ### 命名規則
 
@@ -139,9 +143,12 @@ skills-refactor/
 │
 ├── examples/                       # 測試範例（不需複製）
 │   └── sample-skills/
-│       ├── skill-a/
-│       ├── skill-b/
-│       └── Skill_C/                # 包含刻意的 lint 違規
+│       ├── skill-a/                # 正確範例（展示精確/近似重複）
+│       ├── skill-b/                # 正確範例（展示精確/近似重複）
+│       ├── Skill_C/                # 違規：name-format, secrets, windows-paths
+│       ├── Skill_D/                # 違規：starts-line-one, name-no-xml, description-no-xml
+│       ├── Skill_E/                # 違規：spaces-not-tabs
+│       └── helper/                 # 違規：name-no-reserved, naming/no-vague
 │
 └── docs/
     └── claude-code-skills-guide.md
