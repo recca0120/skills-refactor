@@ -190,16 +190,31 @@ description: "Does something useful"
 
 ## Naming Rules
 
-### naming/prefer-gerund
-**Severity**: Info
+### naming/match-directory
+**Severity**: Error
 
-Skill directory names should use gerund form (verb + -ing) to clearly describe the activity.
+The `name` field in SKILL.md frontmatter must match the parent directory name.
+
+| Directory | name Field | Status |
+|-----------|------------|--------|
+| `pdf-processor/` | `pdf-processor` | ✓ Valid |
+| `pdf-processor/` | `processing-pdfs` | ✗ Invalid |
+
+**Why**: Official specification requires directory name to match the `name` field.
+
+### naming/format
+**Severity**: Error
+
+The `name` field must follow these rules:
+- Lowercase letters, numbers, and hyphens only
+- Cannot start or end with `-`
+- Cannot contain consecutive hyphens (`--`)
 
 | Before | After |
 |--------|-------|
-| `pdf-tool/` | `processing-pdfs/` |
-| `code-review/` | `reviewing-code/` |
-| `test-gen/` | `generating-tests/` |
+| `PDF-Processor` | `pdf-processor` |
+| `-my-skill` | `my-skill` |
+| `my--skill` | `my-skill` |
 
 ### naming/no-vague
 **Severity**: Warning
@@ -208,9 +223,9 @@ Avoid vague, non-descriptive names: `helper`, `utils`, `tools`, `misc`, `common`
 
 | Before | After |
 |--------|-------|
-| `helper/` | `processing-documents/` |
-| `utils/` | `formatting-code/` |
-| `tools/` | `analyzing-data/` |
+| `helper/` | `document-processor/` |
+| `utils/` | `code-formatter/` |
+| `tools/` | `data-analyzer/` |
 
 **Why**: These names don't describe what the skill does, making it hard for Claude to determine when to use it.
 
@@ -221,9 +236,9 @@ Avoid overly generic names: `documents`, `data`, `files`, `stuff`, `things`.
 
 | Before | After |
 |--------|-------|
-| `documents/` | `converting-documents/` |
-| `data/` | `transforming-data/` |
-| `files/` | `managing-config-files/` |
+| `documents/` | `document-converter/` |
+| `data/` | `data-transformer/` |
+| `files/` | `config-manager/` |
 
 **Why**: Generic names don't help Claude understand when to activate the skill.
 
@@ -307,7 +322,7 @@ password\s*[:=]\s*['"]?[^\s'"]+
 Score = 100 - (Errors × 10) - (Warnings × 5) + BonusPoints (max 100)
 
 BonusPoints (up to +20):
-  + 5 if using gerund naming
+  + 5 if name is descriptive (not vague/generic)
   + 5 if description includes "Use when"
   + 5 if references are well-organized
   + 5 if under 200 lines (concise)
@@ -320,3 +335,28 @@ BonusPoints (up to +20):
 | 70-79 | C | Fair - some issues to address |
 | 60-69 | D | Poor - significant issues |
 | <60 | F | Failing - needs major revision |
+
+---
+
+## Naming Style Guide (Informational)
+
+The official specification does not enforce a specific naming style. Choose a descriptive name that clearly indicates what the skill does.
+
+### Accepted Styles
+
+| Style | Example | Official Reference |
+|-------|---------|-------------------|
+| Noun | `pdf`, `docx` | anthropics/skills |
+| Noun-Noun | `skill-creator`, `mcp-builder` | anthropics/skills |
+| Noun-Gerund | `webapp-testing`, `pdf-processing` | Official docs |
+| Gerund-Noun | `explaining-code`, `generating-commit-messages` | Official docs |
+
+### Key Principle
+
+**Descriptiveness matters, not format.** A name should answer: "What does this skill do?"
+
+| Poor | Better | Why |
+|------|--------|-----|
+| `helper` | `pdf-processor` | Describes specific function |
+| `utils` | `code-formatter` | Clear purpose |
+| `tools` | `commit-helper` | Actionable name |

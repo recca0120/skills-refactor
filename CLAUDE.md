@@ -6,17 +6,17 @@ Claude Code Skills 開發和維護工具包，提供技能分析、重構和驗�
 
 此專案包含三個互相關聯的 Claude Code Skills：
 
-1. **skills-analyze** - 掃描技能目錄，檢查質量問題和重複內容
-2. **skills-extract** - 將重複內容重構為共享模組
-3. **skills-validate** - 驗證重構後的技能完整性
+1. **skills-analyzer** - 掃描技能目錄，檢查質量問題和重複內容
+2. **skills-extractor** - 將重複內容重構為共享模組
+3. **skills-validator** - 驗證重構後的技能完整性
 
 ## 專案結構
 
 ```
 .claude/skills/           # 主要技能目錄
-├── skills-analyze/       # 分析技能（含 lint-rules.md, duplicate-patterns.md）
-├── skills-extract/       # 重構技能（含 example.md 範例）
-└── skills-validate/      # 驗證技能（含 checklist.md）
+├── skills-analyzer/      # 分析技能（含 lint-rules.md, duplicate-patterns.md）
+├── skills-extractor/     # 重構技能（含 example.md 範例）
+└── skills-validator/     # 驗證技能（含 checklist.md）
 examples/sample-skills/   # 測試範例（包含正確和故意違規的範例）
 docs/                     # 文檔（claude-code-skills-guide.md）
 ```
@@ -43,10 +43,10 @@ description: "第三人稱描述..."   # 必填，最多 1024 字元
 
 ## 命名慣例
 
-- **技能目錄**: 使用動名詞形式（verb-ing）
-  - 正確：`processing-pdfs`, `analyzing-skills`
-  - 避免：`Helper`, `Tools`, `Utils`
-- **name 欄位**: 小寫、數字、連字號（禁用 "anthropic" 或 "claude"）
+- **技能目錄**: 選擇描述性名稱，風格不限
+  - 可用風格：`pdf`、`skill-creator`、`webapp-testing`、`explaining-code`
+  - 避免：`Helper`, `Tools`, `Utils`（模糊名稱）
+- **name 欄位**: 必須與目錄名稱一致，小寫、數字、連字號（禁用 "anthropic" 或 "claude"）
 - **description**: 使用第三人稱，避免 "I" 或 "my"
 
 ## Lint 規則（22 條）
@@ -65,8 +65,10 @@ description: "第三人稱描述..."   # 必填，最多 1024 字元
 - `content/spaces-not-tabs` - 使用空格縮排，不用 tab
 
 ### Naming 規則
-- `naming/prefer-gerund` - 使用動名詞形式
-- `naming/no-vague` - 避免模糊名稱
+- `naming/match-directory` - 目錄名稱必須與 name 欄位一致
+- `naming/format` - 小寫、數字、連字號，不能 `-` 開頭/結尾
+- `naming/no-vague` - 避免模糊名稱（helper, utils, tools）
+- `naming/no-generic` - 避免泛用名稱（documents, data, files）
 
 ### Reference 規則
 - `reference/valid-paths` - 引用路徑必須存在
@@ -84,11 +86,11 @@ description: "第三人稱描述..."   # 必填，最多 1024 字元
 ## 工作流程
 
 ```
-分析 (skills-analyze)
+分析 (skills-analyzer)
   ↓ Lint 報告 + 重複位置
-重構 (skills-extract)
+重構 (skills-extractor)
   ↓ 建立 shared/ 目錄，更新引用
-驗證 (skills-validate)
+驗證 (skills-validator)
   ↓ 驗證報告 + 測試案例
 ```
 
@@ -111,5 +113,5 @@ description: "第三人稱描述..."   # 必填，最多 1024 字元
 ## 重要參考文件
 
 - `docs/claude-code-skills-guide.md` - 完整的 Claude Code Skills 指南
-- `.claude/skills/skills-analyze/references/lint-rules.md` - 詳細 lint 規則說明
-- `.claude/skills/skills-extract/references/example.md` - 重構範例
+- `.claude/skills/skills-analyzer/references/lint-rules.md` - 詳細 lint 規則說明
+- `.claude/skills/skills-extractor/references/example.md` - 重構範例

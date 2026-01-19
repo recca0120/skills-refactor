@@ -7,20 +7,10 @@ description: "I can help you with various tasks. You can use this tool for anyth
 
 I can help you with many things.
 
-## Workflow Diagram
+> See [workflow-diagram.md](../shared/workflow-diagram.md)
 
-```
-┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Input   │ → │  Help    │ → │  Done    │
-│  (📄)    │   │  (🤝)    │   │  (✅)    │
-└──────────┘   └──────────┘   └──────────┘
-```
+> See [reference-resources.md](../shared/reference-resources.md)
 
-## Reference Resources
-
-- **API Documentation**: `docs/api.md`
-- **User Guide**: `docs/user-guide.md`
-- **Examples**: `docs/examples.md`
 - **Missing File**: `docs\missing.md`
 
 ## Configuration
