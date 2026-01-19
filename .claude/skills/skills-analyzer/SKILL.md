@@ -1,5 +1,5 @@
 ---
-name: analyzing-skills
+name: skills-analyzer
 description: "Analyzes Claude Code Skills for lint issues and duplicate content. Use when user asks to analyze skills, lint skills, check quality, or find duplicates."
 ---
 
@@ -56,4 +56,4 @@ Score = 100 - (Errors × 10) - (Warnings × 5) + Bonus (max 100)
 
 ## Next Step
 
-If issues found → Run **skills-extract** to refactor
+If issues found → Run **skills-extractor** to refactor

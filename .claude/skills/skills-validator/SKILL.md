@@ -1,5 +1,5 @@
 ---
-name: validating-skills
+name: skills-validator
 description: "Validates Skills after refactoring to ensure they work correctly. Use when user asks to validate skills, verify refactoring, or check skills still work."
 ---
 
@@ -13,7 +13,7 @@ This is **Step 3** of the refactoring workflow:
 2. extract → Performs refactoring
 3. **validate** ← You are here
 
-**Prerequisite**: Refactoring completed by skills-extract.
+**Prerequisite**: Refactoring completed by skills-extractor.
 
 ## Workflow
 

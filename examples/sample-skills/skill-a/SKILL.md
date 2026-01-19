@@ -7,20 +7,9 @@ description: "Processes various document formats and extracts content. Use when 
 
 Processes documents and extracts content.
 
-## Workflow Diagram
+> See [workflow-diagram.md](../shared/workflow-diagram.md)
 
-```
-┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Input   │ → │ Process  │ → │  Output  │
-│  (📄)    │   │  (⚙️)    │   │  (✅)    │
-└──────────┘   └──────────┘   └──────────┘
-```
-
-## Reference Resources
-
-- **API Documentation**: `docs/api.md`
-- **User Guide**: `docs/user-guide.md`
-- **Examples**: `docs/examples.md`
+> See [reference-resources.md](../shared/reference-resources.md)
 
 ## Steps
 

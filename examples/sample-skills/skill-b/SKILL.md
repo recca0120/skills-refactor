@@ -7,20 +7,9 @@ description: "Analyzes documents for insights and patterns. Use when user asks t
 
 Analyzes documents and generates insights.
 
-## Workflow Diagram
+> See [workflow-diagram.md](../shared/workflow-diagram.md)
 
-```
-┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Input   │ → │ Analyze  │ → │  Report  │
-│  (📄)    │   │  (🔍)    │   │  (📊)    │
-└──────────┘   └──────────┘   └──────────┘
-```
-
-## Reference Resources
-
-- **API Documentation**: `docs/api.md`
-- **User Guide**: `docs/user-guide.md`
-- **Examples**: `docs/examples.md`
+> See [reference-resources.md](../shared/reference-resources.md)
 
 ## Steps
 

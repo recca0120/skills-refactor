@@ -1,5 +1,5 @@
 ---
-name: extracting-skills
+name: skills-extractor
 description: "Extracts duplicate content from Skills into shared modules. Use when user asks to refactor skills, extract common content, or merge duplicates."
 ---
 
@@ -60,4 +60,4 @@ After user confirms:
 
 ## Next Step
 
-Run **skills-validate** to verify refactoring
+Run **skills-validator** to verify refactoring
